@@ -12,10 +12,6 @@
   --ivory: #F5ECD7;
 }
 
-* {
-  cursor: none !important;
-}
-
 html {
   scroll-behavior: auto;
 }
@@ -157,6 +153,7 @@ html.lenis {
   width: 100%;
   outline: none;
   font-family: inherit;
+  font-size: 16px;
   transition: border-color 0.3s ease;
 }
 
@@ -190,6 +187,7 @@ html.lenis {
   flex-shrink: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
 }
@@ -200,4 +198,16 @@ html.lenis {
   inset: 0;
   background: #0A0705;
   z-index: 1000;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }

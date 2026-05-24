@@ -19,6 +19,8 @@ export default function SectionReveal({ children, className = '', delay = 0 }: S
     const el = ref.current
     if (!el) return
 
+    gsap.set(el, { opacity: 0 })
+
     gsap.fromTo(
       el,
       {
@@ -49,7 +51,7 @@ export default function SectionReveal({ children, className = '', delay = 0 }: S
   }, [delay])
 
   return (
-    <div ref={ref} className={className} style={{ opacity: 0 }}>
+    <div ref={ref} className={className} data-reveal="pending">
       {children}
     </div>
   )

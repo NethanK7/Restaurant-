@@ -1,12 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import SectionReveal from '@/components/ui/SectionReveal'
 import GoldButton from '@/components/ui/GoldButton'
 
 export default function ReservationCTA() {
   return (
-    <section className="relative py-40 px-8 overflow-hidden bg-burgundy">
+    <section className="relative py-20 md:py-40 px-6 md:px-8 overflow-hidden bg-burgundy">
       {/* Texture overlay */}
       <div className="absolute inset-0 opacity-[0.03] bg-grain" />
       <div className="absolute inset-0 bg-gradient-to-b from-burgundy via-burgundy to-obsidian" />
@@ -32,15 +31,15 @@ export default function ReservationCTA() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <GoldButton href="/reservations">Reserve a Table</GoldButton>
-            <Link
+            <a
               href="tel:+97140000000"
-              className="font-body text-xs tracking-[0.2em] uppercase text-ivory-dim/60 hover:text-gold transition-colors duration-300"
+              className="font-body text-xs tracking-[0.2em] uppercase text-ivory-dim/60 hover:text-gold transition-colors duration-300 py-3 px-2 block"
             >
               +971 4 000 0000
-            </Link>
+            </a>
           </div>
 
-          <div className="mt-16 flex items-center justify-center gap-8 md:gap-16">
+          <div className="mt-12 md:mt-16 flex items-center justify-center gap-6 md:gap-16 flex-wrap">
             {[
               { num: '36', label: 'Seats' },
               { num: '2', label: 'Seatings Per Night' },

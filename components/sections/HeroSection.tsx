@@ -19,6 +19,11 @@ export default function HeroSection() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Disable particles on touch devices and respect reduced motion
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(pointer: coarse)').matches
+    if (isReducedMotion) return
+
     let animFrame: number
     let particles: Array<{
       x: number; y: number; size: number; speedX: number; speedY: number;
@@ -54,8 +59,9 @@ export default function HeroSection() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       frame++
 
-      if (frame % 3 === 0) {
-        for (let i = 0; i < 2; i++) spawnParticle()
+      if (frame % (isMobile ? 6 : 3) === 0) {
+        spawnParticle()
+        if (!isMobile) spawnParticle()
       }
 
       particles = particles.filter((p) => p.life < p.maxLife)
@@ -174,7 +180,7 @@ export default function HeroSection() {
       <canvas ref={canvasRef} className="absolute inset-0 z-[2] pointer-events-none" />
 
       {/* Hero content */}
-      <div className="relative z-[3] text-center px-8 max-w-5xl mx-auto">
+      <div className="relative z-[3] text-center px-6 max-w-5xl mx-auto w-full">
         <div className="mb-6">
           <span className="font-body text-xs tracking-[0.5em] text-gold/70 uppercase">Est. 2024 · Dubai</span>
         </div>
@@ -182,7 +188,7 @@ export default function HeroSection() {
         <h1
           ref={titleRef}
           className="font-display font-light tracking-[0.35em] text-ivory mb-8"
-          style={{ fontSize: 'clamp(3.5rem, 10vw, 8rem)', lineHeight: '1.05' }}
+          style={{ fontSize: 'clamp(2.8rem, 12vw, 8rem)', lineHeight: '1.05' }}
         >
           ZAFRAN
         </h1>
@@ -205,7 +211,7 @@ export default function HeroSection() {
       {/* Scroll indicator */}
       <div
         ref={scrollRef}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-[3] flex flex-col items-center gap-3"
+        className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-[3] flex flex-col items-center gap-3 pb-safe"
         style={{ opacity: 0 }}
       >
         <span className="font-body text-[10px] tracking-[0.4em] text-ivory-dim/50 uppercase">Scroll</span>

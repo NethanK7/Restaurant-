@@ -50,6 +50,7 @@ function ParallaxSection({
     const el = sectionRef.current
     const img = imageRef.current
     if (!el || !img) return
+    if (window.matchMedia('(pointer: coarse)').matches) return
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -74,57 +75,90 @@ function ParallaxSection({
   const isEven = index % 2 === 0
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden py-24">
-      {/* Parallax image */}
-      <div
-        className={`absolute inset-0 ${isEven ? 'left-0 right-1/3' : 'left-1/3 right-0'} overflow-hidden`}
-        data-cursor="view"
-      >
-        <div ref={imageRef} className="absolute inset-[-20%]">
-          <Image
-            src={section.image}
-            alt={section.imageAlt}
-            fill
-            className="object-cover opacity-60"
-            sizes="(max-width: 768px) 100vw, 70vw"
-          />
+    <section ref={sectionRef} className="relative overflow-hidden">
+      {/* Mobile layout: stacked */}
+      <div className="md:hidden">
+        <div className="relative h-[50vw] min-h-[240px] overflow-hidden" data-cursor="view">
+          <div ref={imageRef} className="absolute inset-[-10%]">
+            <Image
+              src={section.image}
+              alt={section.imageAlt}
+              fill
+              className="object-cover opacity-70"
+              sizes="100vw"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-obsidian" />
         </div>
-        <div className={`absolute inset-0 ${
-          isEven
-            ? 'bg-gradient-to-r from-obsidian/20 via-obsidian/40 to-obsidian'
-            : 'bg-gradient-to-l from-obsidian/20 via-obsidian/40 to-obsidian'
-        }`} />
+        <div className="bg-obsidian px-6 py-12">
+          <SectionReveal>
+            <span className="font-body text-[10px] tracking-[0.5em] text-gold/50 uppercase block mb-3">
+              {String(index + 1).padStart(2, '0')} / 03
+            </span>
+            <h2 className="font-display font-light text-ivory mb-2 leading-tight text-3xl">
+              {section.title}
+            </h2>
+            <h3 className="font-display italic text-gold/60 text-lg mb-6">{section.subtitle}</h3>
+            <div className="w-10 h-[1px] bg-gold/30 mb-6" />
+            <p className="font-body text-sm text-ivory-dim/60 leading-loose mb-8">{section.body}</p>
+            <div>
+              <div className="font-display text-4xl text-gold font-light">{section.stat.num}</div>
+              <div className="font-body text-[10px] tracking-[0.2em] uppercase text-ivory-dim/40 mt-1">
+                {section.stat.label}
+              </div>
+            </div>
+          </SectionReveal>
+        </div>
       </div>
 
-      {/* Fill rest with obsidian */}
-      <div className={`absolute ${isEven ? 'left-2/3 right-0' : 'left-0 right-2/3'} inset-y-0 bg-obsidian`} />
-
-      {/* Content */}
-      <div className="relative max-w-[1400px] mx-auto px-8 w-full">
-        <div className={`flex ${isEven ? 'justify-end' : 'justify-start'}`}>
-          <div className="max-w-lg">
-            <SectionReveal>
-              <span className="font-body text-[10px] tracking-[0.5em] text-gold/50 uppercase block mb-4">
-                {String(index + 1).padStart(2, '0')} / 03
-              </span>
-              <h2
-                className="font-display font-light text-ivory mb-3 leading-tight"
-                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
-              >
-                {section.title}
-              </h2>
-              <h3 className="font-display italic text-gold/60 text-xl mb-8">{section.subtitle}</h3>
-              <div className="w-12 h-[1px] bg-gold/30 mb-8" />
-              <p className="font-body text-sm text-ivory-dim/60 leading-loose mb-10">{section.body}</p>
-              <div className="flex items-center gap-6">
-                <div>
-                  <div className="font-display text-4xl text-gold font-light">{section.stat.num}</div>
-                  <div className="font-body text-[10px] tracking-[0.2em] uppercase text-ivory-dim/40 mt-1">
-                    {section.stat.label}
+      {/* Desktop layout: side by side with parallax */}
+      <div className="hidden md:block relative min-h-screen flex items-center py-24">
+        <div
+          className={`absolute inset-0 ${isEven ? 'left-0 right-1/3' : 'left-1/3 right-0'} overflow-hidden`}
+          data-cursor="view"
+        >
+          <div ref={imageRef} className="absolute inset-[-20%]">
+            <Image
+              src={section.image}
+              alt={section.imageAlt}
+              fill
+              className="object-cover opacity-60"
+              sizes="70vw"
+            />
+          </div>
+          <div className={`absolute inset-0 ${
+            isEven
+              ? 'bg-gradient-to-r from-obsidian/20 via-obsidian/40 to-obsidian'
+              : 'bg-gradient-to-l from-obsidian/20 via-obsidian/40 to-obsidian'
+          }`} />
+        </div>
+        <div className={`absolute ${isEven ? 'left-2/3 right-0' : 'left-0 right-2/3'} inset-y-0 bg-obsidian`} />
+        <div className="relative max-w-[1400px] mx-auto px-8 w-full">
+          <div className={`flex ${isEven ? 'justify-end' : 'justify-start'}`}>
+            <div className="max-w-lg">
+              <SectionReveal>
+                <span className="font-body text-[10px] tracking-[0.5em] text-gold/50 uppercase block mb-4">
+                  {String(index + 1).padStart(2, '0')} / 03
+                </span>
+                <h2
+                  className="font-display font-light text-ivory mb-3 leading-tight"
+                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
+                >
+                  {section.title}
+                </h2>
+                <h3 className="font-display italic text-gold/60 text-xl mb-8">{section.subtitle}</h3>
+                <div className="w-12 h-[1px] bg-gold/30 mb-8" />
+                <p className="font-body text-sm text-ivory-dim/60 leading-loose mb-10">{section.body}</p>
+                <div className="flex items-center gap-6">
+                  <div>
+                    <div className="font-display text-4xl text-gold font-light">{section.stat.num}</div>
+                    <div className="font-body text-[10px] tracking-[0.2em] uppercase text-ivory-dim/40 mt-1">
+                      {section.stat.label}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SectionReveal>
+              </SectionReveal>
+            </div>
           </div>
         </div>
       </div>
@@ -136,7 +170,7 @@ export default function ExperiencePageClient() {
   return (
     <main className="bg-obsidian">
       {/* Hero */}
-      <section className="min-h-[70vh] flex items-center justify-center relative overflow-hidden pt-32 pb-24">
+      <section className="min-h-[60svh] flex items-center justify-center relative overflow-hidden pt-24 md:pt-32 pb-16 md:pb-24">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(201,168,76,0.05),transparent)]" />
         <div className="relative text-center px-8 max-w-4xl mx-auto">
           <SectionReveal>
@@ -161,7 +195,7 @@ export default function ExperiencePageClient() {
       ))}
 
       {/* Chef quote */}
-      <section className="py-40 px-8 bg-deep-noir relative overflow-hidden">
+      <section className="py-20 md:py-40 px-8 bg-deep-noir relative overflow-hidden">
         {/* Geometric SVG motif */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none select-none">
           <svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">

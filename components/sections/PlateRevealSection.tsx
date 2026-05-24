@@ -29,7 +29,7 @@ export default function PlateRevealSection() {
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: '+=400%',
+          end: () => `+=${window.innerWidth < 768 ? '250%' : '400%'}`,
           pin: true,
           scrub: 1.5,
           anticipatePin: 1,
@@ -88,7 +88,7 @@ export default function PlateRevealSection() {
         style={{ opacity: 0, willChange: 'transform' }}
         data-cursor="view"
       >
-        <div className="relative w-[320px] h-[320px] md:w-[480px] md:h-[480px]">
+        <div className="relative w-[240px] h-[240px] sm:w-[320px] sm:h-[320px] md:w-[480px] md:h-[480px]">
           {/* Plate glow ring */}
           <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(201,168,76,0.15),transparent_70%)]" />
 
@@ -110,17 +110,26 @@ export default function PlateRevealSection() {
           <div
             key={ingredient.name}
             ref={(el) => { ingredientRefs.current[i] = el }}
-            className="absolute top-1/2 left-1/2"
+            className="absolute top-1/2 left-1/2 hidden sm:block"
             style={{
               willChange: 'transform',
-              marginTop: i < 2 ? '-160px' : '80px',
-              marginLeft: i % 2 === 0 ? '-200px' : '120px',
+              marginTop: i < 2 ? '-140px' : '60px',
+              marginLeft: i % 2 === 0 ? '-180px' : '100px',
             }}
           >
-            <div className="bg-obsidian/90 backdrop-blur-sm border border-gold/20 px-4 py-3 min-w-[140px]">
+            <div className="bg-obsidian/90 backdrop-blur-sm border border-gold/20 px-3 py-2 min-w-[130px]">
               <p className="font-display text-gold text-sm font-medium mb-0.5">{ingredient.name}</p>
               <p className="font-body text-ivory-dim/60 text-[11px]">{ingredient.description}</p>
             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile ingredient list — shown only on small screens */}
+      <div className="sm:hidden absolute bottom-20 left-0 right-0 flex flex-wrap justify-center gap-2 px-6">
+        {ingredients.map((ingredient) => (
+          <div key={ingredient.name} className="bg-obsidian/90 border border-gold/20 px-3 py-1.5">
+            <span className="font-display text-gold text-xs">{ingredient.name}</span>
           </div>
         ))}
       </div>

@@ -41,7 +41,7 @@ function Calendar({
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={prevMonth}
-          className="w-8 h-8 flex items-center justify-center text-ivory-dim/40 hover:text-gold transition-colors duration-200"
+          className="w-11 h-11 flex items-center justify-center text-ivory-dim/40 hover:text-gold transition-colors duration-200"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1"/>
@@ -52,7 +52,7 @@ function Calendar({
         </h3>
         <button
           onClick={nextMonth}
-          className="w-8 h-8 flex items-center justify-center text-ivory-dim/40 hover:text-gold transition-colors duration-200"
+          className="w-11 h-11 flex items-center justify-center text-ivory-dim/40 hover:text-gold transition-colors duration-200"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1"/>
@@ -149,7 +149,7 @@ function StepOne({
             <button
               key={t}
               onClick={() => onChange('time', t)}
-              className={`py-3 font-body text-sm tracking-wider border transition-all duration-300 ${
+              className={`py-3.5 font-body text-sm tracking-wider border transition-all duration-300 ${
                 data.time === t
                   ? 'border-gold bg-gold text-obsidian'
                   : 'border-ivory/10 text-ivory-dim/50 hover:border-gold/50 hover:text-ivory'
@@ -212,7 +212,7 @@ function StepTwo({
               <button
                 key={n}
                 onClick={() => onChange('guests', n)}
-                className={`w-10 h-10 font-body text-sm border transition-all duration-300 ${
+                className={`w-11 h-11 font-body text-sm border transition-all duration-300 ${
                   data.guests === n
                     ? 'border-gold bg-gold text-obsidian'
                     : 'border-ivory/10 text-ivory-dim/50 hover:border-gold/50 hover:text-ivory'
@@ -234,7 +234,7 @@ function StepTwo({
             <button
               key={occ}
               onClick={() => onChange('occasion', occ === data.occasion ? '' : occ)}
-              className={`px-4 py-2 font-body text-xs tracking-wider border transition-all duration-300 ${
+              className={`px-4 py-3 font-body text-xs tracking-wider border transition-all duration-300 ${
                 data.occasion === occ
                   ? 'border-gold bg-gold/10 text-gold'
                   : 'border-ivory/10 text-ivory-dim/40 hover:border-gold/30 hover:text-ivory-dim'
@@ -282,7 +282,7 @@ function StepThree({
       transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
       className="space-y-8"
     >
-      <div className="border border-gold/15 p-8 space-y-6">
+      <div className="border border-gold/15 p-6 md:p-8 space-y-6">
         <h3 className="font-display text-xl text-ivory mb-6">Reservation Summary</h3>
 
         {[
@@ -300,9 +300,9 @@ function StepThree({
           ...(formData.occasion ? [{ label: 'Occasion', value: formData.occasion }] : []),
           ...(formData.requests ? [{ label: 'Special Requests', value: formData.requests }] : []),
         ].map(({ label, value }) => (
-          <div key={label} className="flex justify-between items-start gap-6 border-b border-ivory/5 pb-4">
+          <div key={label} className="flex flex-col sm:flex-row sm:justify-between sm:items-start sm:gap-6 gap-1 border-b border-ivory/5 pb-4">
             <span className="font-body text-[10px] tracking-[0.2em] uppercase text-ivory-dim/40 flex-shrink-0">{label}</span>
-            <span className="font-body text-sm text-ivory-dim text-right">{value}</span>
+            <span className="font-body text-sm text-ivory-dim sm:text-right">{value}</span>
           </div>
         ))}
       </div>
@@ -399,8 +399,8 @@ export default function ReservationsPageClient() {
   }
 
   return (
-    <main className="min-h-screen bg-obsidian pt-32 pb-32">
-      <div className="max-w-[900px] mx-auto px-8">
+    <main className="min-h-screen bg-obsidian pt-24 md:pt-32 pb-16 md:pb-32">
+      <div className="max-w-[900px] mx-auto px-5 md:px-8">
         {/* Header */}
         <SectionReveal className="text-center mb-20">
           <span className="font-body text-[10px] tracking-[0.5em] text-gold/50 uppercase block mb-4">

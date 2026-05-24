@@ -264,7 +264,7 @@ const tagStyles: Record<string, string> = {
 function MenuItemCard({ item }: { item: MenuItem }) {
   return (
     <div
-      className={`group relative p-8 border border-ivory/5 hover:border-gold/30 transition-all duration-500 overflow-hidden ${
+      className={`group relative p-6 md:p-8 border border-ivory/5 hover:border-gold/30 transition-all duration-500 overflow-hidden ${
         item.isChef ? 'bg-deep-noir' : 'bg-transparent'
       }`}
     >
@@ -273,7 +273,7 @@ function MenuItemCard({ item }: { item: MenuItem }) {
       {/* Hover top line */}
       <div className="absolute top-0 left-0 h-[1px] bg-gradient-to-r from-gold to-ember w-0 group-hover:w-full transition-all duration-700" />
 
-      <div className="relative flex justify-between items-start gap-6">
+      <div className="relative flex flex-col sm:flex-row sm:justify-between sm:items-start sm:gap-6 gap-3">
         <div className="flex-1 min-w-0">
           {item.isChef && (
             <div className="flex items-center gap-2 mb-2">
@@ -299,7 +299,7 @@ function MenuItemCard({ item }: { item: MenuItem }) {
             ))}
           </div>
         </div>
-        <div className="text-right flex-shrink-0">
+        <div className="sm:text-right flex-shrink-0 sm:self-start">
           <span className="font-display text-gold text-xl font-light">{item.price}</span>
         </div>
       </div>
@@ -313,7 +313,7 @@ export default function MenuPageClient() {
   return (
     <main className="min-h-screen bg-obsidian pt-32 pb-32">
       {/* Hero */}
-      <div className="max-w-[1400px] mx-auto px-8 mb-20">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-8 mb-12 md:mb-20">
         <SectionReveal className="text-center">
           <span className="font-body text-[10px] tracking-[0.5em] text-gold/50 uppercase block mb-4">The Repertoire</span>
           <h1
@@ -331,7 +331,8 @@ export default function MenuPageClient() {
 
       {/* Category Tabs */}
       <div className="sticky top-[72px] z-50 bg-obsidian/95 backdrop-blur-md border-b border-gold/10 mb-16">
-        <div className="max-w-[1400px] mx-auto px-8">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative">
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-obsidian to-transparent z-10 pointer-events-none md:hidden" />
           <div className="flex gap-0 overflow-x-auto scrollbar-none">
             {categories.map((cat) => (
               <button
@@ -355,7 +356,7 @@ export default function MenuPageClient() {
       </div>
 
       {/* Menu Items */}
-      <div className="max-w-[1400px] mx-auto px-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -382,7 +383,7 @@ export default function MenuPageClient() {
 
         {/* Chef's note */}
         <SectionReveal className="mt-24 text-center">
-          <div className="inline-block border border-gold/10 px-12 py-10 max-w-2xl">
+          <div className="inline-block border border-gold/10 px-6 md:px-12 py-8 md:py-10 max-w-2xl w-full">
             <div className="w-8 h-[1px] bg-gold/30 mx-auto mb-6" />
             <p className="font-display italic text-ivory-dim/70 text-lg mb-4">
               &ldquo;Fire does not distinguish between cultures. Neither do we.&rdquo;

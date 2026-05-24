@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -34,8 +34,17 @@ const panels = [
 export default function HorizontalStory() {
   const containerRef = useRef<HTMLDivElement>(null)
   const panelsRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  useEffect(() => {
+    if (isMobile) return
     const container = containerRef.current
     const panelsEl = panelsRef.current
     if (!container || !panelsEl) return
@@ -79,7 +88,41 @@ export default function HorizontalStory() {
     }, container)
 
     return () => ctx.revert()
-  }, [])
+  }, [isMobile])
+
+  // Mobile: simple vertical stack
+  if (isMobile) {
+    return (
+      <section className="bg-obsidian">
+        {panels.map((panel, i) => (
+          <div key={panel.accent} className="relative min-h-[85svh] flex items-end overflow-hidden">
+            <Image
+              src={panel.image}
+              alt={panel.imageAlt}
+              fill
+              className="object-cover opacity-50"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent" />
+            <div className="relative px-6 pb-14 pt-24">
+              <p className="font-body text-[10px] tracking-[0.5em] text-gold/60 uppercase mb-3">
+                {String(i + 1).padStart(2, '0')} / 03
+              </p>
+              <span className="block font-display italic text-5xl text-gold/10 font-light leading-none mb-3">
+                {panel.accent}
+              </span>
+              <h2 className="font-display font-light text-ivory mb-4 leading-tight text-3xl">
+                {panel.title}
+              </h2>
+              <p className="font-body text-sm text-ivory-dim/70 leading-loose">
+                {panel.body}
+              </p>
+            </div>
+          </div>
+        ))}
+      </section>
+    )
+  }
 
   return (
     <section
@@ -111,12 +154,12 @@ export default function HorizontalStory() {
             <div className="absolute inset-0 bg-obsidian/30" />
 
             {/* Content */}
-            <div className="panel-content absolute inset-0 flex items-end pb-24 px-16 md:px-24">
+            <div className="panel-content absolute inset-0 flex items-end pb-16 md:pb-24 px-8 md:px-16 lg:px-24">
               <div className="max-w-xl">
                 <p className="panel-text-elem font-body text-[10px] tracking-[0.5em] text-gold/60 uppercase mb-4">
                   {String(i + 1).padStart(2, '0')} / 03
                 </p>
-                <span className="panel-text-elem block font-display italic text-8xl text-gold/10 font-light leading-none mb-4 -ml-1">
+                <span className="panel-text-elem block font-display italic text-5xl md:text-8xl text-gold/10 font-light leading-none mb-4 -ml-1">
                   {panel.accent}
                 </span>
                 <h2

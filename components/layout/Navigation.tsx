@@ -69,7 +69,7 @@ export default function Navigation() {
 
           {/* Hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-1.5 p-3 min-h-[44px] min-w-[44px] items-center justify-center"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -100,7 +100,7 @@ export default function Navigation() {
                 >
                   <Link
                     href={link.href}
-                    className="font-display text-5xl text-ivory hover:text-gold transition-colors duration-300"
+                    className="font-display text-5xl text-ivory hover:text-gold transition-colors duration-300 py-2 block"
                   >
                     {link.label}
                   </Link>

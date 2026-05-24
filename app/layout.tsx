@@ -4,7 +4,6 @@ import './globals.css'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
-import CustomCursor from '@/components/ui/CustomCursor'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 import PageTransition from '@/components/layout/PageTransition'
 
@@ -42,7 +41,6 @@ export default function RootLayout({
     <html lang="en" className={`${cormorant.variable} ${jakarta.variable}`}>
       <body className="bg-obsidian text-ivory font-body antialiased">
         <SmoothScrollProvider>
-          <CustomCursor />
           <ScrollProgress />
           <Navigation />
           <PageTransition>
