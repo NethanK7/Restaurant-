@@ -1,26 +1,203 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold: #C9A84C;
+  --ember: #E8652A;
+  --burgundy: #7A1E2E;
+  --obsidian: #0A0705;
+  --ivory: #F5ECD7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  cursor: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0A0705;
+  color: #F5ECD7;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* Lenis smooth scroll */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0705;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9A84C;
+  border-radius: 2px;
+}
+
+/* Gold line animation */
+@keyframes drawLine {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.gold-line {
+  transform-origin: left;
+  animation: drawLine 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+/* Clip path image reveal */
+.clip-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.clip-reveal.revealed {
+  clip-path: inset(0% 0 0 0);
+}
+
+/* Gold shimmer */
+@keyframes goldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.chef-selection-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 168, 76, 0.08) 40%,
+    rgba(232, 101, 42, 0.12) 50%,
+    rgba(201, 168, 76, 0.08) 60%,
+    transparent 100%
+  );
+  background-size: 200% auto;
+  animation: goldShimmer 3s linear infinite;
+}
+
+/* Nav underline hover */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #C9A84C;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Float label inputs */
+.float-label-group {
+  position: relative;
+}
+
+.float-label-group input:focus ~ label,
+.float-label-group input:not(:placeholder-shown) ~ label,
+.float-label-group select:focus ~ label,
+.float-label-group select:not([value='']) ~ label {
+  transform: translateY(-1.5rem) scale(0.75);
+  color: #C9A84C;
+}
+
+.float-label-group label {
+  transition: transform 0.3s ease, color 0.3s ease;
+  transform-origin: left;
+}
+
+.input-gold {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245, 236, 215, 0.2);
+  color: #F5ECD7;
+  padding: 0.75rem 0;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.input-gold:focus {
+  border-bottom-color: #C9A84C;
+}
+
+.input-gold::placeholder {
+  color: transparent;
+}
+
+/* Page transition curtain */
+.page-curtain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0A0705;
+  z-index: 10000;
+  transform-origin: bottom;
+}
+
+/* Horizontal scroll panels */
+.panels-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.story-panel {
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0A0705;
+  z-index: 1000;
 }
